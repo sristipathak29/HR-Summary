@@ -1,0 +1,72 @@
+SQL QUERIES
+-- Basic TO Advance
+
+
+-- Show all employees
+select*from employees;
+
+-- Display employee name and salary
+select name, salary from employees;
+
+-- Find employees earning more than 80000
+select*from employees where salary>80000;
+
+-- List employees hired after 2021
+select*from employees where year(hire_date)>2021;
+
+-- Count total employees in the company
+select count(emp_id) from employees;
+
+-- Count employees in each department
+select dept_id,count(emp_id) from employees group by dept_id;
+
+-- Find avg salary per department
+select dept_id,avg(salary) from employees group by dept_id;
+
+-- Show maximum salary in each department
+select dept_id, max(salary) from employees group by dept_id;
+
+-- Find total salary paid by the company
+select sum(salary) from employees;
+
+-- Which department has more than 15 employees
+select dept_id, count(emp_id) from employees group by dept_id having count(emp_id)>15;
+
+-- Show employee name with department name
+select name, dept_name from employees join departments on employees.dept_id=departments.dept_id;
+
+-- Show employee name , department and location
+select name, dept_name, location from employees  join departments on employees.dept_id=departments.dept_id;
+
+-- Show employee name with rating and bonus
+select name, rating, bonus from employees join performance on employees.emp_id=performance.emp_id;
+
+-- List employees working in bangalore
+select name, location from employees join departments on employees.dept_id=departments.dept_id where location="Bangalore";
+
+-- Show total salary expense per department
+select dept_name, sum(salary) from departments join employees on departments.dept_id=employees.dept_id group by dept_name;
+
+-- find employees earning more than company avg
+select name from employees where salary>(select avg(salary) from employees);
+
+-- Find employees with highest salary
+select name from employees where salary=(select max(salary) from employees);
+
+-- Departments where avg salary>70k
+select dept_name from employees join departments on employees.dept_id=departments.dept_id group by dept_name having avg(salary)>70000;
+
+-- Find employee who got highest bonus
+select name from employees join  performance on employees.emp_id=performance.emp_id where bonus=(select max(bonus) from performance);
+
+-- Show employees whose is above avg rating
+select name from employees join performance on employees.emp_id=performance.emp_id where rating>(select avg(rating) from performance);
+
+-- Find top 5 highest paid employees
+select name, salary from employees order by salary desc limit 5;
+
+-- How many employees joined each year
+select year(hire_date) as join_date , count(*) from employees group by year( hire_date)order by join_date;
+
+-- who manages the most employees
+select manager_id,count(*) as team_size from employees where manager_id is not null group by manager_id order by team_size desc limit 1;
